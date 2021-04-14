@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/lux_t1/.conda/envs/endomic/bin/python"
+    "python.pythonPath": "/home/lux_t1/.conda/envs/endomic/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

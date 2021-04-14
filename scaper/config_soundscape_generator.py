@@ -1,5 +1,6 @@
-import icecream as ic
+from typing import List
 from collections import namedtuple
+import json
 
 dist_params = namedtuple("dist_params", ["param", "param_type"])
 
@@ -19,72 +20,64 @@ distributions_dict = {
 class ScapeConfig():
     def __init__(self, cfg_dict = None):
         if cfg_dict:
-            ic("cfg dicts not yet supported")
             self.set_defaults()
         else:
             self.set_defaults()
 
+    def load_from_json(self, cfg_json):
+        cfg_json = cfg_json.read().decode("utf-8")
+        cfg_json = json.loads(cfg_json)
 
-    def test_cfg(self):
-        params = [
-            ("n_soundscapes", int),
-            ("ref_db", int),
-            ("duration", float),
-            ("min_events", int),
-            ("max_events", int),
-            ("event_time_dist", str),
-            ("event_time_mean", float),
-            ("event_time_std", float),
-            ("event_time_min", float),
-            ("event_time_max", float)
-            ("source_time_dist", str),
-            ("source_time", float),
-            # TO BE DONE
+        self.seed = cfg_json["seed"]
+        self.n_soundscapes = cfg_json["n_soundscapes"]
+        self.ref_db = cfg_json["ref_db"]
+        self.min_events = cfg_json["min_events"]
+        self.max_events = cfg_json["max_events"]
+        self.event_time = cfg_json["event_time"]
+        self.event_duration =cfg_json["event_duration"]
+        self.source_time = cfg_json["source_time"]
+        self.snr = cfg_json["snr"]
+        self.pitch = cfg_json["pitch"]
+        self.time_stretch = cfg_json["time_stretch"]
+        self.soundscape_type = cfg_json["soundscape_type"]
+        
 
-        ]
+    def make_num_dist_default_value_dict(
+        self,
+        dist:str,
+        value: float,
+        mean: float,
+        std: float,
+        _min: float,
+        _max: float,
+        input_range: List[float],
+        step: float):
+        _dict = {
+            "dist": dist,
+            "value": float(value),
+            "mean": float(mean),
+            "std": float(std),
+            "min": float(_min),
+            "max": float(_max),
+            "step": float(step),
+            "input_range": [float(_) for _ in input_range]
+        }
 
-    def make_distribution_dict(self, dist:str, defaults:{} = None):
-        assert dist in list(distributions_dict.keys())
-        if defaults == None:
-            defaults = {
-                "min": 1,
-                "max": 100,
-                "mean": 50,
-                "std": 20,
-                "value": 2,
-                "list": []
-            }
-
-        dist_dict = {_.param: _.param_type for _ in distributions_dict[dist]}
-
-        if dist == "const":
-            dist_dict["value"] = defaults["value"]
-        elif dist == "choose":
-            dist_dict["list"] = defaults["list"]
-        elif dist == "uniform":
-            dist_dict["min"] = defaults["min"]
-            dist_dict["max"] = defaults["max"]
-        elif dist == "normal":
-            dist_dict["mean"] = defaults["mean"]
-            dist_dict["std"] = defaults["std"]
-        elif dist == "truncnorm":
-            dist_dict["min"] = defaults["min"]
-            dist_dict["max"] = defaults["max"]
-            dist_dict["mean"] = defaults["mean"]
-            dist_dict["std"] = defaults["std"]
-
-        return dist_dict
-
+        return _dict
 
     def set_defaults(self):
         # general
         self.seed = 42
+        self.soundscape_type = "foreground"
         self.n_soundscapes = {"min": 1, "max":100, "value": 5}
         self.ref_db = -50
         self.duration = 10.0
 
         self.fg_labels = []
         self.bg_labels = []
+        self.fg_labels_used = []
+        self.bg_labels_used = []
+
         self.protected_labels = []
 
         self.min_events = 1
@@ -92,42 +85,17 @@ class ScapeConfig():
 
         self.reverb = 0.1
 
-        self.event_time = {
-            "dist": "truncnorm",
-            "mean": 5.0,
-            "std": 2.0,
-            "min": 0,
-            "max": 10
-        }
+        self.event_time = self.make_num_dist_default_value_dict("truncnorm", 0, 5, 2, 0, 10, [0, self.duration], 0.5)
 
-        self.source_time = {
-            "dist": "const",
-            "time": 0
-        }
+        self.source_time = self.make_num_dist_default_value_dict("const", 0,5,2,0,10, [0, self.duration], 0.5)
 
-        self.event_duration = {
-            "dist": "uniform",
-            "min": 0.5, 
-            "max": 4
-        }
+        self.event_duration = self.make_num_dist_default_value_dict("uniform", 1,2,1,1,10, [0, self.duration], 0.5)
 
-        self.snr = {
-            "dist": "uniform",
-            "min": 6, 
-            "max": 30
-        }
+        self.snr = self.make_num_dist_default_value_dict("uniform", 5, 5, 5, 0, 20, [0, 100], 1)
 
-        self.pitch = {
-            "dist": "uniform",
-            "min": -3,
-            "max": 3
-        }
+        self.pitch = self.make_num_dist_default_value_dict("uniform", 0, 0, 2, -5, 5, [-10,10], 0.5)
 
-        self.time_stretch = {
-            "dist": "uniform", 
-            "min": 0.8,
-            "max": 1.2
-        }
+        self.time_stretch = self.make_num_dist_default_value_dict("uniform", 1,1,0.1, 0.5, 1, [0.5, 1.5], 0.1)
 
     def get_params(self):
         params = {
@@ -142,6 +110,14 @@ class ScapeConfig():
             "source_time": self.source_time,
             "snr": self.snr,
             "pitch": self.pitch,
-            "time_stretch": self.time_stretch
+            "time_stretch": self.time_stretch,
+            "soundscape_type": self.soundscape_type
         }
+
+        for key, value in params.items():
+            if type(value) is dict:
+                if "container" in value:
+                    del params[key]["container"]
+
+
         return params
