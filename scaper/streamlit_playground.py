@@ -59,7 +59,7 @@ if col_1.button("Start!"):
     for i in range(cfg.n_soundscapes["value"]):
         sc = uscg.reset_scaper(sc)
         if cfg.soundscape_type == "foreground":
-            sc = uscg.add_bg(sc)
+            sc = uscg.add_bg(sc, cfg)
 
         _n_events = np.random.randint(cfg.min_events, cfg.max_events+1)
         for n in range(_n_events):

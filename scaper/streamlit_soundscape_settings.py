@@ -1,7 +1,8 @@
 import utils_soundscape_generator as uscg
+from config_soundscape_generator import ScapeConfig
 import json
 
-def make_soundscape_settings_container(streamlit_element, cfg):
+def make_soundscape_settings_container(streamlit_element, cfg: ScapeConfig):
     container = streamlit_element.beta_container()
     container.header("Settings")
     
@@ -26,7 +27,7 @@ def make_soundscape_settings_container(streamlit_element, cfg):
     make_source_time_distribution_container(col_3, cfg, expanded = expanded)
     make_snr_distribution_container(col_3, cfg, expanded = expanded)
 
-def make_event_time_distribution_container(streamlit_element, cfg, expanded = False):
+def make_event_time_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     event_time_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Event Time Distribution",
@@ -39,7 +40,7 @@ def make_event_time_distribution_container(streamlit_element, cfg, expanded = Fa
         if value:
             cfg.event_time[key] = value
 
-def make_event_duration_distribution_container(streamlit_element, cfg, expanded = False):
+def make_event_duration_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     event_duration_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Event Duration Distribution",
@@ -53,7 +54,7 @@ def make_event_duration_distribution_container(streamlit_element, cfg, expanded 
         if value:
             cfg.event_duration[key] = value
 
-def make_time_stretch_distribution_container(streamlit_element, cfg, expanded = False):
+def make_time_stretch_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     time_stretch_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Time Stretch Distribution",
@@ -66,7 +67,7 @@ def make_time_stretch_distribution_container(streamlit_element, cfg, expanded = 
         if value:
             cfg.time_stretch[key] = value
 
-def make_pitch_distribution_container(streamlit_element, cfg, expanded = False):
+def make_pitch_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     pitch_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Pitch Distribution",
@@ -79,7 +80,7 @@ def make_pitch_distribution_container(streamlit_element, cfg, expanded = False):
         if value:
             cfg.pitch[key] = value
 
-def make_source_time_distribution_container(streamlit_element, cfg, expanded = False):
+def make_source_time_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     source_time_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Source Time Distribution",
@@ -92,7 +93,7 @@ def make_source_time_distribution_container(streamlit_element, cfg, expanded = F
         if value:
             cfg.source_time[key] = value
 
-def make_snr_distribution_container(streamlit_element, cfg, expanded = False):
+def make_snr_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     snr_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Signal-to-Noise Distribution",
@@ -105,14 +106,15 @@ def make_snr_distribution_container(streamlit_element, cfg, expanded = False):
         if value:
             cfg.snr[key] = value
 
-def make_general_settings_container(streamlit_element, cfg, expanded = False):
+def make_general_settings_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     settings_general_container = streamlit_element.beta_expander("General", expanded = expanded).beta_container()
     cfg.n_soundscapes["value"] = uscg.make_slider_widget(
         settings_general_container, 
         "n soundscapes",
         cfg.n_soundscapes["min"],
         cfg.n_soundscapes["max"],
-        cfg.n_soundscapes["value"]
+        cfg.n_soundscapes["value"],
+        step = 10
     )
 
     cfg.ref_db = uscg.make_slider_widget(
@@ -138,7 +140,7 @@ def make_general_settings_container(streamlit_element, cfg, expanded = False):
     if cfg.min_events > cfg.max_events:
         settings_general_container.error("Min events must be <= max events ")
 
-def make_labels_container(streamlit_element, cfg, expanded = False):
+def make_labels_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
     # Labels
     select_label_container = streamlit_element.beta_expander("Select Labels", expanded = expanded).beta_container()
     cfg.fg_labels_used = select_label_container.multiselect("Select from available foreground labels:", cfg.fg_labels, default = cfg.fg_labels)

@@ -32,21 +32,21 @@ def reset_scaper(sc:scaper.Scaper) -> scaper.Scaper:
     
     return sc
 
-def add_bg(sc:scaper.Scaper) -> scaper.Scaper: 
+def add_bg(sc:scaper.Scaper, cfg) -> scaper.Scaper: 
     sc.add_background(
-        label=("choose", []),
+        label=("choose", cfg.bg_labels_used),
         source_file = ("choose", []),
         source_time = ("const", 0)
     )
     return sc
 
-def make_slider_widget(streamlit_element, label, _min, _max, value, step = 1):
+def make_slider_widget(streamlit_element, label:str, _min:float, _max:float, value:float, step:float = 1):
     return streamlit_element.slider(label, _min, _max, value, step)
 
 def make_widget_key(base:str, suffix:str):
     return f"{base}_{suffix}"
 
-def make_distribution_select_container(streamlit_element, label: str, dist_dict: {}, cfg, expandable: bool = False, key: str = None):
+def make_distribution_select_container(streamlit_element, label: str, dist_dict: {}, cfg: ScapeConfig, expandable: bool = False, key: str = ""):
     # get dist from cfg
     # important to set new stuff with widgets
     dist = dist_dict["dist"]
@@ -71,11 +71,13 @@ def make_distribution_select_container(streamlit_element, label: str, dist_dict:
         widget_dict = make_norm_dist_widget(container, dist_dict, widget_dict, key = key)
     elif select_dist == "uniform":
         widget_dict = make_uniform_dist_widget(container, dist_dict, widget_dict, key = key)
+    elif select_dist == "const":
+        widget_dict = make_const_numeric_input_widget(container, dist_dict, widget_dict, key = key)
 
     return widget_dict
 
 
-def make_trunc_norm_dist_widget(streamlit_element, dist_dict, widget_dict, key:str):
+def make_trunc_norm_dist_widget(streamlit_element, dist_dict:{}, widget_dict: {}, key:str):
     widget_dict["min"] = streamlit_element.slider("Select Min", dist_dict["input_range"][0],
         dist_dict["input_range"][1], dist_dict["min"], step = dist_dict["step"], key = make_widget_key(key, "min"))
     widget_dict["max"] = streamlit_element.slider("Select Max", dist_dict["input_range"][0],
@@ -92,7 +94,7 @@ def make_trunc_norm_dist_widget(streamlit_element, dist_dict, widget_dict, key:s
 
     return widget_dict
 
-def make_norm_dist_widget(streamlit_element, dist_dict, widget_dict, key: str):
+def make_norm_dist_widget(streamlit_element, dist_dict:{}, widget_dict:{}, key: str):
     widget_dict["mean"] = streamlit_element.slider("Select Mean", dist_dict["input_range"][0],
         dist_dict["input_range"][1], dist_dict["mean"], step = dist_dict["step"], key = make_widget_key(key, "mean"))
     widget_dict["std"] = streamlit_element.slider("Select Std", dist_dict["input_range"][0],
@@ -100,7 +102,7 @@ def make_norm_dist_widget(streamlit_element, dist_dict, widget_dict, key: str):
 
     return widget_dict
 
-def make_uniform_dist_widget(streamlit_element, dist_dict, widget_dict, key: str):
+def make_uniform_dist_widget(streamlit_element, dist_dict:{}, widget_dict:{}, key: str):
     widget_dict["min"] = streamlit_element.slider("Select Min", dist_dict["input_range"][0],
         dist_dict["input_range"][1], dist_dict["min"], step = dist_dict["step"], key = make_widget_key(key, "min"))
     widget_dict["max"] = streamlit_element.slider("Select Max", dist_dict["input_range"][0],
@@ -109,6 +111,12 @@ def make_uniform_dist_widget(streamlit_element, dist_dict, widget_dict, key: str
     if widget_dict["min"] > widget_dict["max"]:
         streamlit_element.error("min must be <= max")
 
+    return widget_dict
+
+def make_const_numeric_input_widget(streamlit_element, dist_dict:{}, widget_dict:{}, key:str):
+    widget_dict["value"] = streamlit_element.slider("Value", dist_dict["input_range"][0],
+        dist_dict["input_range"][1], dist_dict["value"], step = dist_dict["step"], key = make_widget_key(key, "const"))
+    
     return widget_dict
 
 def parse_args_by_dist_type(dist_dict:{}):
@@ -151,39 +159,14 @@ def parse_args_by_dist_type(dist_dict:{}):
 
 def add_event(sc:scaper.Scaper, cfg: ScapeConfig) -> scaper.Scaper:
     sc.add_event(
-        label=("choose", []),
+        label=("choose", cfg.fg_labels_used),
         source_file = ("choose", []),
-        source_time = (
-            cfg.source_time["dist"],
-            cfg.source_time["value"]
-        ),
-        event_time=(
-            cfg.event_time["dist"],
-            cfg.event_time["mean"],
-            cfg.event_time["std"],
-            cfg.event_time["min"],
-            cfg.event_time["max"]
-        ),
-        event_duration=(
-            cfg.event_duration["dist"],
-            cfg.event_duration["min"],
-            cfg.event_duration["max"]
-        ),
-        snr=(
-            cfg.snr["dist"],
-            cfg.snr["min"],
-            cfg.snr["max"]
-        ),
-        pitch_shift=(
-            cfg.pitch["dist"],
-            cfg.pitch["min"],
-            cfg.pitch["max"]
-        ),
-        time_stretch=(
-            cfg.time_stretch["dist"],
-            cfg.time_stretch["min"],
-            cfg.time_stretch["max"]
-    ))
+        source_time = parse_args_by_dist_type(cfg.source_time),
+        event_time=parse_args_by_dist_type(cfg.event_time),
+        event_duration=parse_args_by_dist_type(cfg.event_duration),
+        snr=parse_args_by_dist_type(cfg.snr),
+        pitch_shift=parse_args_by_dist_type(cfg.pitch),
+        time_stretch=parse_args_by_dist_type(cfg.time_stretch))
     return sc
 
 def make_export_filepaths(n:int, path:pathlib.Path) -> List[pathlib.Path]:

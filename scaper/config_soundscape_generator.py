@@ -69,8 +69,8 @@ class ScapeConfig():
         # general
         self.seed = 42
         self.soundscape_type = "foreground"
-        self.n_soundscapes = {"min": 1, "max":100, "value": 5}
-        self.ref_db = -50
+        self.n_soundscapes = {"min": 10, "max":10000, "value": 100}
+        self.ref_db = -20
         self.duration = 10.0
 
         self.fg_labels = []
@@ -83,18 +83,13 @@ class ScapeConfig():
         self.min_events = 1
         self.max_events = 9
 
+        #To Do: Implement reverb distribution
         self.reverb = 0.1
-
         self.event_time = self.make_num_dist_default_value_dict("truncnorm", 0, 5, 2, 0, 10, [0, self.duration], 0.5)
-
         self.source_time = self.make_num_dist_default_value_dict("const", 0,5,2,0,10, [0, self.duration], 0.5)
-
         self.event_duration = self.make_num_dist_default_value_dict("uniform", 1,2,1,1,10, [0, self.duration], 0.5)
-
-        self.snr = self.make_num_dist_default_value_dict("uniform", 5, 5, 5, 0, 20, [0, 100], 1)
-
-        self.pitch = self.make_num_dist_default_value_dict("uniform", 0, 0, 2, -5, 5, [-10,10], 0.5)
-
+        self.snr = self.make_num_dist_default_value_dict("uniform", 1, 1, 0.2, 0.1, 3, [0.1, 10], 0.1)
+        self.pitch = self.make_num_dist_default_value_dict("uniform", 0, 0, 2, -5, 5, [0,10], 0.5)
         self.time_stretch = self.make_num_dist_default_value_dict("uniform", 1,1,0.1, 0.5, 1, [0.5, 1.5], 0.1)
 
     def get_params(self):
@@ -111,7 +106,9 @@ class ScapeConfig():
             "snr": self.snr,
             "pitch": self.pitch,
             "time_stretch": self.time_stretch,
-            "soundscape_type": self.soundscape_type
+            "soundscape_type": self.soundscape_type,
+            "fg_labels_used": self.fg_labels_used,
+            "bg_labels_used": self.bg_labels_used
         }
 
         for key, value in params.items():
