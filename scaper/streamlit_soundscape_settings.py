@@ -3,6 +3,12 @@ from config_soundscape_generator import ScapeConfig
 import json
 
 def make_soundscape_settings_container(streamlit_element, cfg: ScapeConfig):
+    """Generates the UI elements for soundscape settings.
+
+    Args:
+        streamlit_element (streamlit object): Streamlit UI object to which the elements will be added
+        cfg (ScapeConfig): ScapeConfig object containing the specifications for the UI objects which will be generated
+    """
     container = streamlit_element.beta_container()
     container.header("Settings")
     
@@ -28,6 +34,13 @@ def make_soundscape_settings_container(streamlit_element, cfg: ScapeConfig):
     make_snr_distribution_container(col_3, cfg, expanded = expanded)
 
 def make_event_time_distribution_container(streamlit_element, cfg: ScapeConfig, expanded:bool = False):
+    """Generates a container for the event time distribution settings and adds them to the given streamlit element.
+
+    Args:
+        streamlit_element (streamlit element): Object to which the container will be added
+        cfg (ScapeConfig): Config object containing the specifications
+        expanded (bool, optional): If True, the container will be expanded by default. Defaults to False.
+    """
     event_time_dist_widget_dict = uscg.make_distribution_select_container(
         streamlit_element,
         label = "Event Time Distribution",

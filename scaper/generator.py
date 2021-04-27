@@ -35,17 +35,15 @@ export_path = sidebar_dict["export_path"]
 # Choose if BG or FG Generation
 utils_settings.make_soundscape_settings_container(st, cfg)
 
-
-col_1, col_2 = st.beta_columns(2)
-col_1.header("Create Soundscapes")
-col_1.write("To generate new Soundscapes, choose the data and export path on the right. Then, use the options on the left to specify your settings.")
+st.header("Create Soundscapes")
+st.write("To generate new Soundscapes, choose the data and export path on the right. Then, use the options on the left to specify your settings.")
 
 # Start Generator
-col_1.write("When you are done, click 'Start!'")
+st.write("When you are done, click 'Start!'")
 
-if col_1.button("Start!"):
-    progress_generator = col_1.progress(0.0)
-    generator_status_text = col_1.empty()
+if st.button("Start!"):
+    progress_generator = st.progress(0.0)
+    generator_status_text = st.empty()
     # Make Scaper
     sc = make_scaper(cfg, fg_path, bg_path)
     current_export_dir = uscg.make_export_folder(export_path)
@@ -88,21 +86,21 @@ else:
     pass
 
 # Right Col
-col_2.subheader("Listen to your Soundscapes")
+st.subheader("Listen to your Soundscapes")
 soundscape_folders = [_ for _ in export_path.iterdir() if _.is_dir()]
 if len(soundscape_folders) > 0:
-    audio_file_dir = pathlib.Path(col_2.selectbox('First, Select Origin Folder', [_ for _ in export_path.iterdir() if _.is_dir()]))
-    audio_file = col_2.file_uploader(
+    audio_file_dir = pathlib.Path(st.selectbox('First, Select Origin Folder', [_ for _ in export_path.iterdir() if _.is_dir()]))
+    audio_file = st.file_uploader(
         label = 'Choose Audio File:',
         accept_multiple_files = False,
         type = ["wav"]
     )
     if audio_file is not None:
         audio_file_name = audio_file.name
-        col_2.audio(audio_file)
+        st.audio(audio_file)
 
         if cfg.soundscape_type == "foreground":
             event_df = uscg.read_event_table_for_path(audio_file_name, audio_file_dir)
-            col_2.write(event_df)
+            st.write(event_df)
 else: 
-    col_2.write("No soundscape folders found")
+    st.write("No soundscape folders found")

@@ -14,25 +14,66 @@ distribution_choices = [
     ]
 
 def get_labels_of_path(path:pathlib.Path) -> List[str]:
+    """Iterates over given directory and returns the names of folders as list. Not recursive.
+
+    Args:
+        path (pathlib.Path): Path to iterate over
+
+    Returns:
+        List[str]: List of strings containing foldernames
+    """
     return [_.name for _ in path.iterdir() if _.is_dir()] 
 
 def get_export_folder_path(path:pathlib.Path) -> pathlib.Path:
+    """Generates the path to a folder with a current timestamp as extension of the given folder
+
+    Args:
+        path (pathlib.Path): path to expand
+
+    Returns:
+        pathlib.Path: path to new folder
+    """
     return path.joinpath(dt.now().strftime(date_format))
 
 def make_export_folder(path:pathlib.Path) -> pathlib.Path:
+    """Checks if path exists. If path does not exist, it is created as directory.
+
+    Args:
+        path (pathlib.Path): path to create
+
+    Returns:
+        pathlib.Path: path of new folder
+    """
     path = get_export_folder_path(path)
     if not path.exists():
         path.mkdir()
 
     return path
 
-def reset_scaper(sc:scaper.Scaper) -> scaper.Scaper:        
+def reset_scaper(sc:scaper.Scaper) -> scaper.Scaper: 
+    """Resets foreground and background event specifications of given scaper object
+
+    Args:
+        sc (scaper.Scaper): Object to reset
+
+    Returns:
+        scaper.Scaper: Object with fore/background specs reset
+    """           
     sc.reset_bg_event_spec()
     sc.reset_fg_event_spec()
     
     return sc
 
-def add_bg(sc:scaper.Scaper, cfg) -> scaper.Scaper: 
+def add_bg(sc:scaper.Scaper, cfg) -> scaper.Scaper:
+    """Add Background to scaper object
+
+    Args:
+        sc (scaper.Scaper): scaper object to add a background event to
+        cfg (?): Configuration object
+
+    Returns:
+        scaper.Scaper: Scaper object with added background event
+    """
     sc.add_background(
         label=("choose", cfg.bg_labels_used),
         source_file = ("choose", []),
@@ -47,8 +88,19 @@ def make_widget_key(base:str, suffix:str):
     return f"{base}_{suffix}"
 
 def make_distribution_select_container(streamlit_element, label: str, dist_dict: {}, cfg: ScapeConfig, expandable: bool = False, key: str = ""):
-    # get dist from cfg
-    # important to set new stuff with widgets
+    """Adds a distribution settings container to given streamlit element.
+
+    Args:
+        streamlit_element (streamlit element): Object to add the container to.
+        label (str): label of the new container
+        dist_dict (dict): Dictionary containing the necessary information to create the widget.
+        cfg (ScapeConfig): cfg object
+        expandable (bool, optional): If true, container is expanded at startup. Defaults to False.
+        key (str, optional): key for the new widget. Defaults to "".
+
+    Returns:
+        dict: dictionary of widgets inside of the newly generated container
+    """
     dist = dist_dict["dist"]
     widget_dict = {
         "container": None,

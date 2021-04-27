@@ -2,7 +2,6 @@ import pathlib
 import utils_soundscape_generator as uscg
 
 def make_sidebar(st, cfg):
-
     st.sidebar.subheader("Paths")
     cfg.soundscape_type = st.sidebar.selectbox("Type:", ["foreground", "background"], index = 0)
 
