@@ -1,0 +1,17 @@
+_target_: src.models.audio_model_min.AudioLitModel
+
+conv0: [1, 64, 3, 3]
+conv1: [64, 256, 3, 3]
+conv2: [256, 256, 3, 3]
+fc: [22016,4]
+lr: 0.001
+weight_decay: 0.0005
+classes: ${classes}
+data_dir: ${data_dir}  # data_dir is specified in config.yaml
+sample_rate: ${sample_rate}
+duration: ${duration}
+n_mels: 64
+n_fft: 1024 
+hop_len: 512
+top_db: 80
+n_mfcc: 64

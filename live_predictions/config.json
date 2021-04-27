@@ -1,0 +1,10 @@
+{
+    "classes": ["Cat", "Dog", "Dishes", "Alarm_bell_ringing", "Electric_shaver_toothbrush"],
+    "samplerate": 41000,
+    "duration": 3,
+    "model_path": "/home/lux_t1/Desktop/large-lightning-template-test", 
+    "ckpt_path": "models/last.ckpt",
+    "batchsize_predict": 5,
+    "channels": 1,
+    "device": 12
+}

@@ -1,5 +1,5 @@
-/scaper/data
-/scaper/soundscapes
+*/data/*
+*/soundscapes/*
 */logs/*
 *.png
 *.ckpt

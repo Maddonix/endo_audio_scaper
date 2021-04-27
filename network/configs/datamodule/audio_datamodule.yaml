@@ -1,0 +1,10 @@
+_target_: src.datamodules.audio_datamodule.AudioDataModule
+
+data_dir: ${data_dir}  # data_dir is specified in config.yaml
+batch_size: 10
+train_val_test_split: [0.8, 0.1, 0.1]
+num_workers: 5
+pin_memory: False
+sample_rate: ${sample_rate}
+duration: ${duration}
+classes: ${classes}

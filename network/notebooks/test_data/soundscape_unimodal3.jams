@@ -1,0 +1,447 @@
+{
+  "annotations": [
+    {
+      "annotation_metadata": {
+        "curator": {
+          "name": "",
+          "email": ""
+        },
+        "annotator": {},
+        "version": "",
+        "corpus": "",
+        "annotation_tools": "",
+        "annotation_rules": "",
+        "validation": "",
+        "data_source": ""
+      },
+      "namespace": "scaper",
+      "data": [
+        {
+          "time": 0.0,
+          "duration": 10.0,
+          "value": {
+            "label": "2021 04 22 11h 53min",
+            "source_file": "data/foreground_generation/background/2021 04 22 11h 53min/soundscape_unimodal54.wav",
+            "source_time": 0,
+            "event_time": 0,
+            "event_duration": 10.0,
+            "snr": 0,
+            "role": "background",
+            "pitch_shift": null,
+            "time_stretch": null
+          },
+          "confidence": 1.0
+        },
+        {
+          "time": 4.424868344143939,
+          "duration": 0.7112471655328798,
+          "value": {
+            "label": "Cat",
+            "source_file": "data/foreground_generation/foreground/Cat/161303_3.wav",
+            "source_time": 0.0,
+            "event_time": 4.424868344143939,
+            "event_duration": 0.7112471655328798,
+            "snr": 0.8063865008880857,
+            "role": "foreground",
+            "pitch_shift": -0.538212348755702,
+            "time_stretch": 1.0
+          },
+          "confidence": 1.0
+        },
+        {
+          "time": 5.231780148927968,
+          "duration": 0.7112471655328798,
+          "value": {
+            "label": "Cat",
+            "source_file": "data/foreground_generation/foreground/Cat/161303_3.wav",
+            "source_time": 0.0,
+            "event_time": 5.231780148927968,
+            "event_duration": 0.7112471655328798,
+            "snr": 0.8739417822102109,
+            "role": "foreground",
+            "pitch_shift": 0.9391692555291171,
+            "time_stretch": 1.0
+          },
+          "confidence": 1.0
+        },
+        {
+          "time": 5.489547173007185,
+          "duration": 0.4750113378684807,
+          "value": {
+            "label": "Cat",
+            "source_file": "data/foreground_generation/foreground/Cat/262313.wav",
+            "source_time": 0.0,
+            "event_time": 5.489547173007185,
+            "event_duration": 0.4750113378684807,
+            "snr": 1.1687496940092468,
+            "role": "foreground",
+            "pitch_shift": -0.823014995896161,
+            "time_stretch": 1.0
+          },
+          "confidence": 1.0
+        },
+        {
+          "time": 6.900889589543052,
+          "duration": 0.16158730158730158,
+          "value": {
+            "label": "Dog",
+            "source_file": "data/foreground_generation/foreground/Dog/403327_2.wav",
+            "source_time": 0.0,
+            "event_time": 6.900889589543052,
+            "event_duration": 0.16158730158730158,
+            "snr": 0.8693458614031089,
+            "role": "foreground",
+            "pitch_shift": -0.21787878485351841,
+            "time_stretch": 1.0
+          },
+          "confidence": 1.0
+        },
+        {
+          "time": 7.1203736031092095,
+          "duration": 0.3407936507936508,
+          "value": {
+            "label": "Dog",
+            "source_file": "data/foreground_generation/foreground/Dog/244469_5.wav",
+            "source_time": 0.0,
+            "event_time": 7.1203736031092095,
+            "event_duration": 0.3407936507936508,
+            "snr": 1.0721230154351118,
+            "role": "foreground",
+            "pitch_shift": -0.09900149606091402,
+            "time_stretch": 1.0
+          },
+          "confidence": 1.0
+        }
+      ],
+      "sandbox": {
+        "scaper": {
+          "duration": 10.0,
+          "original_duration": 10.0,
+          "fg_path": "data/foreground_generation/foreground",
+          "bg_path": "data/foreground_generation/background",
+          "fg_spec": [
+            [
+              [
+                "choose",
+                [
+                  "Cat",
+                  "Dog",
+                  "Dishes",
+                  "Alarm_bell_ringing"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0.0
+              ],
+              [
+                "truncnorm",
+                5.0,
+                2.0,
+                0.0,
+                10.0
+              ],
+              [
+                "uniform",
+                0.5,
+                10.0
+              ],
+              [
+                "uniform",
+                0.8,
+                1.2
+              ],
+              "foreground",
+              [
+                "uniform",
+                -1.0,
+                1.0
+              ],
+              [
+                "uniform",
+                1.0,
+                1.0
+              ]
+            ],
+            [
+              [
+                "choose",
+                [
+                  "Cat",
+                  "Dog",
+                  "Dishes",
+                  "Alarm_bell_ringing"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0.0
+              ],
+              [
+                "truncnorm",
+                5.0,
+                2.0,
+                0.0,
+                10.0
+              ],
+              [
+                "uniform",
+                0.5,
+                10.0
+              ],
+              [
+                "uniform",
+                0.8,
+                1.2
+              ],
+              "foreground",
+              [
+                "uniform",
+                -1.0,
+                1.0
+              ],
+              [
+                "uniform",
+                1.0,
+                1.0
+              ]
+            ],
+            [
+              [
+                "choose",
+                [
+                  "Cat",
+                  "Dog",
+                  "Dishes",
+                  "Alarm_bell_ringing"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0.0
+              ],
+              [
+                "truncnorm",
+                5.0,
+                2.0,
+                0.0,
+                10.0
+              ],
+              [
+                "uniform",
+                0.5,
+                10.0
+              ],
+              [
+                "uniform",
+                0.8,
+                1.2
+              ],
+              "foreground",
+              [
+                "uniform",
+                -1.0,
+                1.0
+              ],
+              [
+                "uniform",
+                1.0,
+                1.0
+              ]
+            ],
+            [
+              [
+                "choose",
+                [
+                  "Cat",
+                  "Dog",
+                  "Dishes",
+                  "Alarm_bell_ringing"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0.0
+              ],
+              [
+                "truncnorm",
+                5.0,
+                2.0,
+                0.0,
+                10.0
+              ],
+              [
+                "uniform",
+                0.5,
+                10.0
+              ],
+              [
+                "uniform",
+                0.8,
+                1.2
+              ],
+              "foreground",
+              [
+                "uniform",
+                -1.0,
+                1.0
+              ],
+              [
+                "uniform",
+                1.0,
+                1.0
+              ]
+            ],
+            [
+              [
+                "choose",
+                [
+                  "Cat",
+                  "Dog",
+                  "Dishes",
+                  "Alarm_bell_ringing"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0.0
+              ],
+              [
+                "truncnorm",
+                5.0,
+                2.0,
+                0.0,
+                10.0
+              ],
+              [
+                "uniform",
+                0.5,
+                10.0
+              ],
+              [
+                "uniform",
+                0.8,
+                1.2
+              ],
+              "foreground",
+              [
+                "uniform",
+                -1.0,
+                1.0
+              ],
+              [
+                "uniform",
+                1.0,
+                1.0
+              ]
+            ]
+          ],
+          "bg_spec": [
+            [
+              [
+                "choose",
+                [
+                  "2021 04 22 11h 53min"
+                ]
+              ],
+              [
+                "choose",
+                []
+              ],
+              [
+                "const",
+                0
+              ],
+              [
+                "const",
+                0
+              ],
+              [
+                "const",
+                10.0
+              ],
+              [
+                "const",
+                0
+              ],
+              "background",
+              null,
+              null
+            ]
+          ],
+          "fg_labels": [
+            "Alarm_bell_ringing",
+            "Cat",
+            "Dishes",
+            "Dog",
+            "Electric_shaver_toothbrush"
+          ],
+          "bg_labels": [
+            "2021 04 22 11h 53min"
+          ],
+          "protected_labels": [],
+          "sr": 44100,
+          "ref_db": -12,
+          "n_channels": 1,
+          "fade_in_len": 0.01,
+          "fade_out_len": 0.01,
+          "n_events": 5,
+          "polyphony_max": 2,
+          "polyphony_gini": 0.1668784713397028,
+          "allow_repeated_label": true,
+          "allow_repeated_source": true,
+          "reverb": 0.1,
+          "scaper_version": "1.6.4",
+          "soundscape_audio_path": "soundscapes/2021 04 23 07h 56min/soundscape_unimodal3.wav",
+          "isolated_events_audio_path": [],
+          "audio_path": "soundscapes/2021 04 23 07h 56min/soundscape_unimodal3.wav",
+          "jams_path": "soundscapes/2021 04 23 07h 56min/soundscape_unimodal3.jams",
+          "fix_clipping": false,
+          "peak_normalization": false,
+          "save_isolated_events": false,
+          "isolated_events_path": null,
+          "disable_sox_warnings": true,
+          "no_audio": false,
+          "txt_path": "soundscapes/2021 04 23 07h 56min/soundscape_unimodal3.txt",
+          "txt_sep": "\t",
+          "disable_instantiation_warnings": false,
+          "peak_normalization_scale_factor": 1.0,
+          "ref_db_change": 0,
+          "ref_db_generated": -12,
+          "quick_pitch_time": false
+        }
+      },
+      "time": 0,
+      "duration": 10.0
+    }
+  ],
+  "file_metadata": {
+    "title": "",
+    "artist": "",
+    "release": "",
+    "duration": 10.0,
+    "identifiers": {},
+    "jams_version": "0.3.4"
+  },
+  "sandbox": {}
+}
