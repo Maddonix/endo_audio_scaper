@@ -1,6 +1,9 @@
 /scaper/data
 /scaper/soundscapes
 */logs/*
+*.png
+*.ckpt
+*.wav
 
 
 
