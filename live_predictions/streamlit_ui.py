@@ -1,3 +1,4 @@
+# pylint: disable=[import-error, no-member]
 import streamlit as st
 import json
 import sounddevice as sd
@@ -8,6 +9,9 @@ import os
 import asyncio
 from collections import namedtuple
 import torch
+from datetime import datetime as dt
+import sys
+import utils
 
 cwd = pathlib.Path.cwd()
 with open("config.json", "r") as file:
@@ -17,7 +21,8 @@ os.chdir(config["model_path"])
 from src.models.audio_model_min import AudioLitModel
 os.chdir(cwd)
 
-trained_model = AudioLitModel.load_from_checkpoint(checkpoint_path=config["ckpt_path"])
+cuda_device = 0
+trained_model = AudioLitModel.load_from_checkpoint(checkpoint_path=config["ckpt_path"]).to(cuda_device)
 
 device = config["device"]
 classes = config["classes"]
@@ -45,19 +50,25 @@ def preprocess(data):
     return data
 def predict(array, model):
     array = array[np.newaxis, ...]
-    batch = torch.Tensor(array)
+    batch = torch.Tensor(array).to(cuda_device)
     batch = batch / batch.max()
     pred = model(batch)
-    pred = torch.sigmoid(pred).detach().numpy()
+    pred = torch.sigmoid(pred).cpu().detach().numpy()
     # pred[pred>0.5] = True
     # pred[pred<=0.5] = False
     return pred
+
+date_format_string = "%Y-%m-%d %H:%M:%S"
+pred_logger = utils.prediction_logger(classes, date_format_string)
+mqtt_logger = utils.mqtt_logger(None)
+
 
 q = queue.Queue()
 
 st.set_page_config(page_title="Live Classification", page_icon=None, initial_sidebar_state='auto')
 
 st.header("Live Predictions")
+sensor_data_chart = st.line_chart(mqtt_logger.logdata.rename(columns={"timestamp":"index"}).set_index("index"))
 
 placeholders_classes = {i: st.empty() for i,_ in enumerate(classes)}
 for i in range(len(classes)):
@@ -99,6 +110,7 @@ async def listen_and_predict(placeholders_classes):
                     frames[i] = audio_tuple.frames
             if new_information is True:
                 pred = predict(arrays[current_index].copy(), trained_model)
+                pred_logger.log_values(pred[0])
                 for i, _ in enumerate(pred[0]):
                     placeholders_classes[i].text(f"{classes[i]}: {round(_*100, 2)} %")
                 new_information = False

@@ -1,0 +1,19 @@
+FROM nvcr.io/nvidia/l4t-pytorch:r32.5.0-pth1.7-py3
+RUN apt-get update && \
+    apt-get install -y alsa-base alsa-utils && \
+    apt-get install libportaudio2 && \
+    apt-get -y install locales && \
+    pip3 install --upgrade pip && \
+    pip3 install streamlit && \
+    pip3 install sounddevice && \
+    pip3 install torch && \
+    pip3 install pytorch-lightning && \
+    pip3 install numpy && \
+    pip3 install pandas && \
+    pip3 install tqdm && \
+    pip3 install omegaconf &&\
+    pip3 install paho-mqtt
+ENV LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8 \
+    LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1
+

@@ -22,6 +22,7 @@ def make_scaper(cfg:config_soundscape_generator.ScapeConfig, fg_path:pathlib.Pat
         cfg.protected_labels,
         cfg.seed
     )
+    sc.ref_db = cfg.ref_db
     return sc
 
 
