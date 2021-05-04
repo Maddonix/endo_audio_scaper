@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get install libportaudio2 && \
     apt-get -y install locales && \
     pip3 install --upgrade pip && \
+    pip3 install plotly && \
     pip3 install streamlit && \
     pip3 install sounddevice && \
     pip3 install torch && \

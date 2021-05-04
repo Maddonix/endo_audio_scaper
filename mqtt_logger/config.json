@@ -1,0 +1,7 @@
+{
+    "date_format_string": "%Y-%m-%d %H:%M:%S",
+    "HOST": "10.42.0.1",
+    "PORT": 1883,
+    "KEEPALIVE": 60,
+    "topic": "test"
+}
