@@ -111,4 +111,6 @@ async def listen_and_predict(placeholders_classes):
                     placeholders_classes[i].text(f"{classes[i]}: {round(_*100, 2)} %")
                 new_information = False
 
-asyncio.run(listen_and_predict(placeholders_classes))
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+result = loop.run_until_complete(listen_and_predict(placeholders_classes))
