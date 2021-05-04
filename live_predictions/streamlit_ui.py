@@ -60,15 +60,11 @@ def predict(array, model):
 
 date_format_string = "%Y-%m-%d %H:%M:%S"
 pred_logger = utils.prediction_logger(classes, date_format_string)
-mqtt_logger = utils.mqtt_logger(None)
-
 
 q = queue.Queue()
 
 st.set_page_config(page_title="Live Classification", page_icon=None, initial_sidebar_state='auto')
-
 st.header("Live Predictions")
-sensor_data_chart = st.line_chart(mqtt_logger.logdata.rename(columns={"timestamp":"index"}).set_index("index"))
 
 placeholders_classes = {i: st.empty() for i,_ in enumerate(classes)}
 for i in range(len(classes)):
@@ -116,10 +112,3 @@ async def listen_and_predict(placeholders_classes):
                 new_information = False
 
 asyncio.run(listen_and_predict(placeholders_classes))
-
-# for i,_class in enumerate(config["classes"]):
-#     if pred[i] == 1:
-#         st.subheader(_class)
-#     else:
-#         pass
-
