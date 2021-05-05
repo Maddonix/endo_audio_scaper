@@ -1,9 +1,9 @@
 {
-    "classes": ["Cat", "Dog", "Dishes", "Alarm_bell_ringing", "Electric_shaver_toothbrush"],
-    "samplerate": 41000,
+    "classes": ["gas_turn_on", "bed_barrier_down", "processor_running", "lightsource_running", "suction_running", "gas_running", "oxygen_running", "processor_turn_on"],
+    "samplerate": 44100,
     "duration": 3,
     "model_path": "/home/lux_t1/Desktop/large-lightning-template-test", 
-    "ckpt_path": "models/last.ckpt",
+    "ckpt_path": "models/rose_cloud_6-e85.ckpt",
     "batchsize_predict": 5,
     "channels": 1,
     "device": 12

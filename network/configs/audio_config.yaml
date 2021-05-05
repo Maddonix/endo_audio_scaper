@@ -27,9 +27,9 @@ work_dir: ${hydra:runtime.cwd}
 data_dir: "/home/lux_t1/Desktop/endo_audio_scaper/scaper/soundscapes/train"
 
 # General Audio Settings
-sample_rate: 41000
+sample_rate: 44100
 duration: 3000
-classes: ["Cat", "Dog", "Dishes", "Alarm_bell_ringing", "Electric_shaver_toothbrush"]
+classes: ["gas_turn_on", "bed_barrier_down", "processor_running", "lightsource_running", "suction_running", "gas_running", "oxygen_running", "processor_turn_on"]
 
 
 # use `python run.py debug=true` for easy debugging!
