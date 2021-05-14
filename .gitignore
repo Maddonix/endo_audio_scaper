@@ -4,6 +4,7 @@
 *.png
 *.ckpt
 *.wav
+*/logs/*
 
 
 

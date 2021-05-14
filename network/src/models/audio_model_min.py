@@ -2,11 +2,9 @@ from typing import Any, List
 
 import torch
 import torch.nn as nn
-from pytorch_lightning import LightningModule
-from pytorch_lightning.metrics.classification import Accuracy, F1, Precision, Recall
 import torchvision
-
-from src.models.modules.simple_conv_net import SimpleConvNet
+from pytorch_lightning import LightningModule
+from pytorch_lightning.metrics.classification import F1, Accuracy, Precision, Recall
 from src.models.modules.audio_preprocessing import AudioPreprocess
 
 
@@ -277,6 +275,6 @@ class AudioLitModel(LightningModule):
 
         return {
             "optimizer": optimizer,
-            "lr_scheduler": lr_scheduler,
-            "monitor": "val/loss_best",
+            # "lr_scheduler": lr_scheduler,
+            # "monitor": "val/loss_best",
         }
